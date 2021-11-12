@@ -1,11 +1,16 @@
 package com.example;
 
 import com.alibaba.fastjson.JSON;
-import com.humancloud.saas.social.vo.BillDetailDomain;
-import com.humancloud.saas.social.vo.ChannelBillDetailImportDomain;
-import com.humancloud.utils.exception.SaasException;
-import org.springframework.util.StringUtils;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
+import com.test.Base;
+import com.test.BaseEnum;
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.Assert;
 
+import javax.sound.midi.Soundbank;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class TestMain {
@@ -389,60 +394,219 @@ public class TestMain {
 //        System.out.println(JSON.toJSONString(signatureIdList));
 //        System.out.println(signatureIdList.length);
 
-        try {
-            exception();
-        }catch (SaasException e){
-            System.out.println("---------");
-        }catch (Exception e){
-            System.out.println("=========");
+//        Base base = new Base();
+//        base.setValue("1");
+//        processsubMethod(base);
+//        System.out.println(JSON.toJSONString(base));
+
+
+//        List<String> list = Lists.newArrayList();
+//        list.get(0);
+
+//        List<Base> bases = JSONObject.parseArray("", Base.class);
+//        System.out.println(bases);
+//        dealmap();
+
+//        Long[] re1 = {1L,2L,3L};
+//        Long[] re2 = {4L,1L,2L,3L};
+//
+//        List<Long> l1 = Arrays.asList(re1);
+//        List<Long> l2 = Arrays.asList(re2);
+//
+//        System.out.println(l2.contains(l1));
+
+//        Base base = new Base();
+//        deal(base);
+//        System.out.println(JSON.toJSONString(base));
+//        byte s = -1;
+//        byte b = -1;
+//
+//        System.out.println(s & b);
+
+
+//        byte[] arr = new byte[]{1,2,4,8,16,32};
+//        byte[] arr2 = new byte[]{1,2,4,8,16,32};
+//
+//
+//        for(byte a1: arr){
+//            for(byte a2 : arr2){
+//                int or = a1 | a2;
+//                int and = a1 & a2;
+//                System.out.println(a1 + " | " + a2 + " = " + or);
+//            }
+//        }
+//
+//        for(byte a1: arr){
+//            for(byte a2 : arr2){
+//                int or = a1 | a2;
+//                int and = a1 & a2;
+//                System.out.println(a1 + " & " + a2 + " = " + and);
+//            }
+//        }
+//
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("base", "4000");
+//
+//        Map<String, Object> newMap = new HashMap();
+//        newMap.put("base","");
+//
+//        map.putAll(newMap);
+//        System.out.println(JSON.toJSONString(map));
+
+        int calMonthNum = getCalMonthNum("2020-10", "", "2019-10", "当年首次入职学生");
+        System.out.println(calMonthNum);
+    }
+
+
+//    private static void deal(Base base){
+//        String str = "{\n" +
+//                "        \"value\":\"11\",\n" +
+//                "        \"realValue\":\"22\"\n" +
+//                "    }";
+//        base = JSONObject.parseObject(str, Base.class);
+//    }
+//    private static void processsubMethod(Base base) {
+//        Base base2 = new Base();
+//        base2.setValue("2");
+//        base = base2;
+//
+//    }
+
+//    private static boolean isFlowEndHandleFlag(){
+//        BaseEnum nodeHandleEnum = null;
+//        switch (nodeHandleEnum){
+//            case null:
+//            case NO_FILL:
+//                return true;
+//            default:
+//                return false;
+//        }
+//    }
+    private static void dealmap(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("clemence", "23");
+        for(Map.Entry<String, Object> entry : map.entrySet()){
+            map.put("clemence", "24");
+
+            Object old = entry.getValue();
+            System.out.println(old.toString());
         }
-
-    }
-
-    private static void exception(){
-        throw new SaasException("saas异常");
-    }
-
-    private static void deal(List<? extends BillDetailDomain> billDetailDomainList){
-        importChannelBill(billDetailDomainList);
     }
 
 
-    private static void importChannelBill(List<? extends BillDetailDomain> billDetailDomainList){
-        for(BillDetailDomain domain : billDetailDomainList){
-            if(domain instanceof ChannelBillDetailImportDomain){
-                System.out.println("true");
-            }else {
-                System.out.println("false");
+    /**
+     * 获取月份间隔  lastDate - firstDate
+     *
+     * eg: firstDate: 2021-01
+     *     lastDate:  2021-10
+     *     result:    9
+     *
+     * @param firstDate 较小月份 yyyy-MM
+     * @param lastDate  较大月份 yyyy-MM
+     * @return
+     */
+    public static int monthDiff(String lastDate, String firstDate){
+        Assert.notNull("firstDate", "firstDate不能为空");
+        Assert.notNull("lastDate", "lastDate不能为空");
+
+        String[] firstArr = firstDate.split("-");
+        String[] lastArr = lastDate.split("-");
+
+        int firstYear = Integer.valueOf(firstArr[0]);
+        int firstMonth = Integer.valueOf(firstArr[1]);
+        int lastYear = Integer.valueOf(lastArr[0]);
+        int lastMonth = Integer.valueOf(lastArr[1]);
+
+        int intervalYear = lastYear - firstYear;
+        int intervalMonth = lastMonth - firstMonth;
+        return intervalYear*12 + intervalMonth;
+    }
+
+
+    /**
+     * 专为个税计算月份间隔使用(雇员)
+     *
+     * @param lastDate
+     * @param firstDate
+     * @return
+     */
+    public static int monthDiffForTaxEmployee(String lastDate, String firstDate){
+        Assert.notNull("firstDate", "firstDate不能为空");
+        Assert.notNull("lastDate", "lastDate不能为空");
+
+        String[] firstArr = firstDate.split("-");
+        String[] lastArr = lastDate.split("-");
+
+        int intervalMonth = monthDiff(lastDate, firstDate);
+        int firstYear = Integer.valueOf(firstArr[0]);
+        int firstMonth = Integer.valueOf(firstArr[1]);
+        int lastYear = Integer.valueOf(lastArr[0]);
+        int lastMonth = Integer.valueOf(lastArr[1]);
+
+        if(intervalMonth < 0) {
+            return 0;
+        }else if(lastYear > firstYear){
+            return lastMonth;
+        }else {
+            return intervalMonth + 1;
+        }
+    }
+
+
+    /**
+     * 专为个税计算月份间隔使用(大学生)
+     *
+     * @param lastDate
+     * @param firstDate
+     * @return
+     */
+    public static int monthDiffForTaxStudent(String lastDate, String firstDate){
+        Assert.notNull("firstDate", "firstDate不能为空");
+        Assert.notNull("lastDate", "lastDate不能为空");
+
+        String[] firstArr = firstDate.split("-");
+        String[] lastArr = lastDate.split("-");
+
+        int intervalMonth = monthDiff(lastDate, firstDate);
+        int firstYear = Integer.valueOf(firstArr[0]);
+        int firstMonth = Integer.valueOf(firstArr[1]);
+        int lastYear = Integer.valueOf(lastArr[0]);
+        int lastMonth = Integer.valueOf(lastArr[1]);
+
+        if(intervalMonth < 0) {
+            return 0;
+        }else {
+            return lastMonth;
+        }
+    }
+
+
+    private static int getCalMonthNum(String joinDate, String leaveDate, String taxMonth, String employeeType){
+
+        int calMonthNum;
+        if(StringUtils.isNotBlank(leaveDate)){
+            int intervalMonth = monthDiff(leaveDate, taxMonth);
+            if(intervalMonth < 0){
+                if("当年首次入职学生".equals(employeeType)){
+                    calMonthNum = monthDiffForTaxStudent(taxMonth, joinDate);
+                }else {
+                    calMonthNum = monthDiffForTaxEmployee(leaveDate, joinDate);
+                }
+
+                return calMonthNum;
             }
         }
+
+
+        if("当年首次入职学生".equals(employeeType)){
+            calMonthNum = monthDiffForTaxStudent(taxMonth, joinDate);
+        }else {
+            calMonthNum = monthDiffForTaxEmployee(taxMonth, joinDate);
+        }
+
+
+        return calMonthNum;
     }
-
-
-
-
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 
 
 }
