@@ -1,5 +1,7 @@
-package com.example.spi;
+package com.example.spi.javaSPI;
 
+
+import com.example.spi.javaSPI.PrintService;
 
 public class PrintService2Impl implements PrintService {
 

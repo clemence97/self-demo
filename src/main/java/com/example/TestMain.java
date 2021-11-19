@@ -2,12 +2,14 @@ package com.example;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.test.Base;
 import com.test.BaseEnum;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
+import sun.misc.CompoundEnumeration;
 
 import javax.sound.midi.Soundbank;
 import java.math.BigDecimal;
@@ -453,8 +455,34 @@ public class TestMain {
 //        map.putAll(newMap);
 //        System.out.println(JSON.toJSONString(map));
 
-        int calMonthNum = getCalMonthNum("2020-10", "", "2019-10", "当年首次入职学生");
-        System.out.println(calMonthNum);
+//        int calMonthNum = getCalMonthNum("2020-10", "", "2019-10", "当年首次入职学生");
+//        System.out.println(calMonthNum);
+
+//        String str = "examinerNew;multiplayerV2;ifExaminerNull;remark;fillFormAttrRight;timerSwitch;timerConfig";
+//        List<String> typeCodeLists = Splitter.on(";").trimResults().omitEmptyStrings().splitToList(str);
+//        System.out.println(typeCodeLists);
+
+//        Set<Long> roleIdSet = new HashSet<>();
+//        roleIdSet.add(1424491103416832L);
+//        roleIdSet.add(1424147628861696L);
+//        roleIdSet.add(1424099252782080L);
+//        roleIdSet.add(1425957455234304L);
+
+//
+//        Enumeration<Long> enumeration = new Enumeration<Long>() {
+//            @Override
+//            public boolean hasMoreElements() {
+//                return false;
+//            }
+//
+//            @Override
+//            public Long nextElement() {
+//                return null;
+//            }
+//        }
+//
+//        CompoundEnumeration enumeration = new CompoundEnumeration();
+
     }
 
 

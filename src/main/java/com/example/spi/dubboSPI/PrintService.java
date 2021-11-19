@@ -1,8 +1,8 @@
-package com.example.spi;
+package com.example.spi.dubboSPI;
 
 import org.apache.dubbo.common.extension.SPI;
 
-@SPI("impl")
+@SPI
 public interface PrintService {
 
     void printInfo();

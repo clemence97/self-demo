@@ -1,4 +1,4 @@
-package com.example.spi;
+package com.example.spi.javaSPI;
 
 
 
